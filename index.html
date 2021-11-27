@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <title>Attendance App | Home</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a href="/"><img src="{{ url_for('static', filename='favicon.ico') }}" width="50" height="50" alt="Logo"></a>
+      <a class="navbar-brand" href="/">Attendance App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto" >
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          
+      </div>
+    </div>
+  </nav>
+  
+  <div class='container my-4'>
+    <div class="card mx-auto" style="width: 40rem;">
+      <div class="card-body">
+        <h2 class="card-title text-center">Attendance Form</h2>
+        <form action='/results' method='POST'>
+          <div class="form-floating mb-3">
+            <input class="form-control" type="text" name='semester' id="semester"  placeholder='Example: 5'>
+            <label for="floatingInput">Input semester:</label>
+          </div>
+          <div class="mb-3">
+            <h5 class="card-subtitle mb-2 text-muted">Input file:</h5>
+            <input class="form-control" type="file" name='inputFile' id="inputFile">
+          </div>
+          <div class="mb-3">
+            <h5 class="card-subtitle mb-2 text-muted">Output file:</h5>
+            <input class="form-control" type="file" name='outputFile' id="outputFile">
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" type="text" name='percentage' id="percentage"  placeholder='Example: 50' autocomplete="False" required>
+            <label for="floatingInput">Persent Percenatge:</label>
+          </div>
+          <div class='text-center'>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>    
+    </div>
+
+    <div>
+      <h3 class='mt-5'>Summary</h3>
+      
+      {% if attendance|length == 0 %}
+      <div class="alert alert-primary" role="alert">
+        Nothing found!!
+      </div>
+      {% else %}
+      <div class="text-end">
+        
+        <a href="/refresh" class='btn btn-outline-primary'>Refresh</a>
+      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Sl. no.</th>
+            <th scope="col">Semester</th>
+            <th scope="col">Date</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for att in attendance %}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{att.course}}</td>
+            <td>{{att.date}}</td>
+            <td>{{att.total}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      
+      {% endif %}
+    </div>
+  </div>
+
+</body>
+</html>
